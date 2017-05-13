@@ -39,14 +39,14 @@ public final class OpenWeatherJsonUtils {
         parsedWeatherData = new String[weatherArray.length()];
 
         long localDate = System.currentTimeMillis();
-        long utcDate = DateUtils.getUTCDateFromLocal(localDate);
-        long startDate = DateUtils.normalizeDate(utcDate);
+        long utcDate = DateTimeUtils.getUTCDateFromLocal(localDate);
+        long startDate = DateTimeUtils.normalizeDate(utcDate);
 
         for (int i = 0; i < weatherArray.length(); i++) {
 
             JSONObject dayForecast = weatherArray.getJSONObject(i);
-            long dateTimeMillis = startDate + DateUtils.DAY_IN_MILLIS * i;
-            String date = DateUtils.getFriendlyDateString(context, dateTimeMillis, false);
+            long dateTimeMillis = startDate + DateTimeUtils.DAY_IN_MILLIS * i;
+            String date = DateTimeUtils.getFriendlyDateString(context, dateTimeMillis, false);
 
             JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
             String description = weatherObject.getString(OWM_DESCRIPTION);
