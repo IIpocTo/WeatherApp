@@ -39,14 +39,14 @@ public final class OpenWeatherJsonUtils {
         parsedWeatherData = new String[weatherArray.length()];
 
         long localDate = System.currentTimeMillis();
-        long utcDate = SunshineDateUtils.getUTCDateFromLocal(localDate);
-        long startDate = SunshineDateUtils.normalizeDate(utcDate);
+        long utcDate = DateUtils.getUTCDateFromLocal(localDate);
+        long startDate = DateUtils.normalizeDate(utcDate);
 
         for (int i = 0; i < weatherArray.length(); i++) {
 
             JSONObject dayForecast = weatherArray.getJSONObject(i);
-            long dateTimeMillis = startDate + SunshineDateUtils.DAY_IN_MILLIS * i;
-            String date = SunshineDateUtils.getFriendlyDateString(context, dateTimeMillis, false);
+            long dateTimeMillis = startDate + DateUtils.DAY_IN_MILLIS * i;
+            String date = DateUtils.getFriendlyDateString(context, dateTimeMillis, false);
 
             JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
             String description = weatherObject.getString(OWM_DESCRIPTION);
@@ -54,7 +54,7 @@ public final class OpenWeatherJsonUtils {
             JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
             double high = temperatureObject.getDouble(OWM_MAX);
             double low = temperatureObject.getDouble(OWM_MIN);
-            String highAndLow = SunshineWeatherUtils.formatHighLows(context, high, low);
+            String highAndLow = WeatherUtils.formatHighLows(context, high, low);
 
             parsedWeatherData[i] = date + " - " + description + " - " + highAndLow;
 

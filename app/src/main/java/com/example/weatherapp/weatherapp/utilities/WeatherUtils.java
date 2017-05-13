@@ -4,7 +4,7 @@ import android.content.Context;
 import com.example.weatherapp.weatherapp.R;
 import com.example.weatherapp.weatherapp.data.SunshinePreferences;
 
-public final class SunshineWeatherUtils {
+public final class WeatherUtils {
 
     private static double celsiusToFahrenheit(double temperatureInCelsius) {
         return temperatureInCelsius * 1.8 + 32;

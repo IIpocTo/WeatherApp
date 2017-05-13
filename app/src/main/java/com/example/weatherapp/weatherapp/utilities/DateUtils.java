@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public final class SunshineDateUtils {
+public final class DateUtils {
 
     private static final int SECOND_IN_MILLIS = 1000;
     private static final int MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;
@@ -51,8 +51,8 @@ public final class SunshineDateUtils {
     }
 
     private static String getReadableDateString(Context context, long timeInMillis) {
-        int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY;
-        return DateUtils.formatDateTime(context, timeInMillis, flags);
+        int flags = android.text.format.DateUtils.FORMAT_SHOW_DATE | android.text.format.DateUtils.FORMAT_NO_YEAR | android.text.format.DateUtils.FORMAT_SHOW_WEEKDAY;
+        return android.text.format.DateUtils.formatDateTime(context, timeInMillis, flags);
     }
 
     public static String getFriendlyDateString(Context context, long dateInMillis, boolean showFullDate) {
@@ -73,11 +73,11 @@ public final class SunshineDateUtils {
         } else if (dayNumber < currentDayNumber + 7) {
             return getDayName(context, localDate);
         } else {
-            int flags = DateUtils.FORMAT_SHOW_DATE
-                    | DateUtils.FORMAT_NO_YEAR
-                    | DateUtils.FORMAT_ABBREV_ALL
-                    | DateUtils.FORMAT_SHOW_WEEKDAY;
-            return DateUtils.formatDateTime(context, localDate, flags);
+            int flags = android.text.format.DateUtils.FORMAT_SHOW_DATE
+                    | android.text.format.DateUtils.FORMAT_NO_YEAR
+                    | android.text.format.DateUtils.FORMAT_ABBREV_ALL
+                    | android.text.format.DateUtils.FORMAT_SHOW_WEEKDAY;
+            return android.text.format.DateUtils.formatDateTime(context, localDate, flags);
         }
 
     }
