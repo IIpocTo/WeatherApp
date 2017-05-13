@@ -2,7 +2,7 @@ package com.example.weatherapp.weatherapp.data;
 
 import android.content.Context;
 
-public class SunshinePreferences {
+public class AppPreferences {
 
     private static final String DEFAULT_WEATHER_LOCATION = "94043,USA";
 
@@ -10,7 +10,7 @@ public class SunshinePreferences {
         return true;
     }
 
-    public static String getPrefferedWeatherLocation(Context context) {
+    public static String getPreferredWeatherLocation(Context context) {
         return DEFAULT_WEATHER_LOCATION;
     }
 

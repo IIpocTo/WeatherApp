@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-import com.example.weatherapp.weatherapp.data.SunshinePreferences;
+import com.example.weatherapp.weatherapp.data.AppPreferences;
 import com.example.weatherapp.weatherapp.utilities.NetworkUtils;
 import com.example.weatherapp.weatherapp.utilities.OpenWeatherJsonUtils;
 import org.json.JSONException;
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadWeatherData() {
-        String location = SunshinePreferences.getPrefferedWeatherLocation(this);
+        String location = AppPreferences.getPreferredWeatherLocation(this);
         new FetchOWMData().execute(location);
     }
 

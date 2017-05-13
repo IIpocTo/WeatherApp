@@ -2,7 +2,7 @@ package com.example.weatherapp.weatherapp.utilities;
 
 import android.content.Context;
 import com.example.weatherapp.weatherapp.R;
-import com.example.weatherapp.weatherapp.data.SunshinePreferences;
+import com.example.weatherapp.weatherapp.data.AppPreferences;
 
 public final class WeatherUtils {
 
@@ -12,7 +12,7 @@ public final class WeatherUtils {
 
     public static String formatTemperature(Context context, double temperature) {
         int temperatureFormat = R.string.format_temperature_celsius;
-        if (!SunshinePreferences.isMetric(context)) {
+        if (!AppPreferences.isMetric(context)) {
             temperature = celsiusToFahrenheit(temperature);
             temperatureFormat = R.string.format_temperature_fahrenheit;
         }
