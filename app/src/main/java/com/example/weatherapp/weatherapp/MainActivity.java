@@ -3,7 +3,10 @@ package com.example.weatherapp.weatherapp;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.example.weatherapp.weatherapp.data.AppPreferences;
 import com.example.weatherapp.weatherapp.utilities.NetworkUtils;
 import com.example.weatherapp.weatherapp.utilities.OpenWeatherJsonUtils;
@@ -26,12 +29,28 @@ public class MainActivity extends AppCompatActivity {
         loadWeatherData();
     }
 
-    private void loadWeatherData() {
-        String location = AppPreferences.getPreferredWeatherLocation(this);
-        new FetchOWMData().execute(location);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.forecast, menu);
+        return true;
     }
 
-    private class FetchOWMData extends AsyncTask<String, Void, String[]> {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int selectedMenuItemId = item.getItemId();
+        if (selectedMenuItemId == R.id.action_refresh) {
+            Toast.makeText(this, R.string.toast_refresh_message, Toast.LENGTH_LONG).show();
+            loadWeatherData();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void loadWeatherData() {
+        String location = AppPreferences.getPreferredWeatherLocation(this);
+        new FetchWeatherTask().execute(location);
+    }
+
+    private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
         @Override
         protected String[] doInBackground(String... params) {
