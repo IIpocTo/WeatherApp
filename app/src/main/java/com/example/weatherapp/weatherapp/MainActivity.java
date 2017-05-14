@@ -39,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int selectedMenuItemId = item.getItemId();
         if (selectedMenuItemId == R.id.action_refresh) {
-            Toast.makeText(this, R.string.toast_refresh_message, Toast.LENGTH_LONG).show();
+            mWeatherTextView.setText("");
             loadWeatherData();
+            Toast.makeText(this, R.string.toast_refresh_message, Toast.LENGTH_SHORT).show();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
