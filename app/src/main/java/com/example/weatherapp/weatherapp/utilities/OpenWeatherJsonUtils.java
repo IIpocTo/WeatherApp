@@ -13,12 +13,12 @@ public final class OpenWeatherJsonUtils {
             throws JSONException {
 
         final String OWM_LIST = "list";
-        final String OWM_TEMPERATURE = "temp";
-        final String OWM_MAX = "max";
-        final String OWM_MIN = "min";
+        final String OWM_MAX = "temp_max";
+        final String OWM_MIN = "temp_min";
         final String OWM_WEATHER = "weather";
         final String OWM_DESCRIPTION = "main";
         final String OWM_MESSAGE_CODE = "cod";
+        final String OWM_DATETIME = "dt";
 
         String[] parsedWeatherData;
         JSONObject forecastJson = new JSONObject(forecastJsonString);
@@ -38,22 +38,20 @@ public final class OpenWeatherJsonUtils {
         JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
         parsedWeatherData = new String[weatherArray.length()];
 
-        long localDate = System.currentTimeMillis();
-        long utcDate = DateTimeUtils.getUTCDateFromLocal(localDate);
-        long startDate = DateTimeUtils.normalizeDate(utcDate);
-
         for (int i = 0; i < weatherArray.length(); i++) {
 
-            JSONObject dayForecast = weatherArray.getJSONObject(i);
-            long dateTimeMillis = startDate + DateTimeUtils.DAY_IN_MILLIS * i;
-            String date = DateTimeUtils.getFriendlyDateString(context, dateTimeMillis, false);
+            JSONObject forecast = weatherArray.getJSONObject(i);
+            long dateTimeMillis = forecast.getLong(OWM_DATETIME);
+            String date = DateTimeUtils.getReadableDateString(context, dateTimeMillis);
 
-            JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
+            JSONObject weatherObject = forecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
             String description = weatherObject.getString(OWM_DESCRIPTION);
 
-            JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
-            double high = temperatureObject.getDouble(OWM_MAX);
-            double low = temperatureObject.getDouble(OWM_MIN);
+            JSONObject temperatureObject = forecast.getJSONObject(OWM_DESCRIPTION);
+            double highTempInKelvins = temperatureObject.getDouble(OWM_MAX);
+            double lowTempInKelvins = temperatureObject.getDouble(OWM_MIN);
+            double high = WeatherUtils.kelvinToCelsius(highTempInKelvins);
+            double low = WeatherUtils.kelvinToCelsius(lowTempInKelvins);
             String highAndLow = WeatherUtils.formatHighLows(context, high, low);
 
             parsedWeatherData[i] = date + " - " + description + " - " + highAndLow;

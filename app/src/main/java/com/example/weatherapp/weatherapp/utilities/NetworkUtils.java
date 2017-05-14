@@ -11,24 +11,17 @@ import java.util.Scanner;
 
 public final class NetworkUtils {
 
-    private static final String DYNAMIC_WEATHER_URL =
-            "https://andfun-weather.udacity.com/weather";
+    private static final String APP_ID = "04a47a051709b3ba7442b022655aa670";
 
-    private static final String STATIC_WEATHER_URL =
-            "https://andfun-weather.udacity.com/staticweather";
-
-    private static final String FORECAST_BASE_URL = STATIC_WEATHER_URL;
-
-    private static final String format = "json";
-
+    private static final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast";
     private static final String QUERY_PARAM = "q";
-    private static final String FORMAT_PARAM = "mode";
+    private static final String APP_PARAM = "appid";
 
     public static URL buildUrl(String locationQuery) {
         URL url = null;
         Uri uri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                 .appendQueryParameter(QUERY_PARAM, locationQuery)
-                .appendQueryParameter(FORMAT_PARAM, format)
+                .appendQueryParameter(APP_PARAM, APP_ID)
                 .build();
         try {
             url = new URL(uri.toString());

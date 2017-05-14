@@ -1,10 +1,10 @@
 package com.example.weatherapp.weatherapp.utilities;
 
 import android.content.Context;
-import android.text.format.DateUtils;
 import com.example.weatherapp.weatherapp.R;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -13,71 +13,40 @@ public final class DateTimeUtils {
     private static final int SECOND_IN_MILLIS = 1000;
     private static final int MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;
     private static final int HOURS_IN_MILLIS = MINUTE_IN_MILLIS * 60;
-    public static final int DAY_IN_MILLIS = HOURS_IN_MILLIS * 24;
+    private static final int DAY_IN_MILLIS = HOURS_IN_MILLIS * 24;
 
-    private static long getDayNumber(long date) {
-        TimeZone tz = TimeZone.getDefault();
-        int gmtOffset = tz.getOffset(date);
-        return (date + gmtOffset) / DAY_IN_MILLIS;
+    private static final String TODAY_AND_TOMORROW_DATE_FORMAT = "k:mm";
+    private static final String REST_DAYS_DATE_FORMAT = "EEEE MMMM, dd k:mm";
+
+    private static String convertMillisToFormattedDate(long dateInMillis, String dateFormat) {
+        Date date = new Date(dateInMillis * 1000L);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.getDefault());
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT-4"));
+        return simpleDateFormat.format(date);
     }
 
-    public static long normalizeDate(long date) {
-        return date / DAY_IN_MILLIS * DAY_IN_MILLIS;
+    private static boolean isToday(SimpleDateFormat formatter, long dateInMillis) {
+        return formatter.format(dateInMillis * 1000L).equals(formatter.format(System.currentTimeMillis()));
     }
 
-    private static long getLocalDateFromUTC(long utcDate) {
-        TimeZone tz = TimeZone.getDefault();
-        int gmtOffset = tz.getOffset(utcDate);
-        return utcDate - gmtOffset;
+    private static boolean isTomorrow(SimpleDateFormat formatter, long dateInMillis) {
+        long tomorrowDayInMillis = System.currentTimeMillis() + DAY_IN_MILLIS;
+        return formatter.format(dateInMillis * 1000L).equals(formatter.format(tomorrowDayInMillis));
     }
 
-    public static long getUTCDateFromLocal(long localDate) {
-        TimeZone tz = TimeZone.getDefault();
-        int gmtOffset = tz.getOffset(localDate);
-        return localDate - gmtOffset;
-    }
+    public static String getReadableDateString(Context context, long dateInMillis) {
 
-    private static String getDayName(Context context, long dateInMillis) {
-        long dayNumber = getDayNumber(dateInMillis);
-        long currentDayNumber = getDayNumber(System.currentTimeMillis());
-        if (dayNumber == currentDayNumber) {
-            return context.getString(R.string.today);
-        } else if (dayNumber == currentDayNumber + 1) {
-            return context.getString(R.string.tomorrow);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        formatter.setTimeZone(TimeZone.getTimeZone("GMT-4"));
+
+        if (isToday(formatter, dateInMillis)) {
+            String formattedDate = convertMillisToFormattedDate(dateInMillis, TODAY_AND_TOMORROW_DATE_FORMAT);
+            return context.getString(R.string.today) + ", " + formattedDate;
+        } else if (isTomorrow(formatter, dateInMillis)){
+            String formattedDate = convertMillisToFormattedDate(dateInMillis, TODAY_AND_TOMORROW_DATE_FORMAT);
+            return context.getString(R.string.tomorrow) + ", " + formattedDate;
         } else {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE", Locale.getDefault());
-            return dateFormat.format(dateInMillis);
-        }
-    }
-
-    private static String getReadableDateString(Context context, long timeInMillis) {
-        int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY;
-        return DateUtils.formatDateTime(context, timeInMillis, flags);
-    }
-
-    public static String getFriendlyDateString(Context context, long dateInMillis, boolean showFullDate) {
-
-        long localDate = getLocalDateFromUTC(dateInMillis);
-        long dayNumber = getDayNumber(localDate);
-        long currentDayNumber = getDayNumber(System.currentTimeMillis());
-
-        if (dayNumber == currentDayNumber || showFullDate) {
-            String dayName = getDayName(context, localDate);
-            String readableDate = getReadableDateString(context, localDate);
-            if (dayNumber - currentDayNumber < 2) {
-                String localizedDayName = new SimpleDateFormat("EEEE", Locale.getDefault()).format(localDate);
-                return readableDate.replace(localizedDayName, dayName);
-            } else {
-                return readableDate;
-            }
-        } else if (dayNumber < currentDayNumber + 7) {
-            return getDayName(context, localDate);
-        } else {
-            int flags = DateUtils.FORMAT_SHOW_DATE
-                    | DateUtils.FORMAT_NO_YEAR
-                    | DateUtils.FORMAT_ABBREV_ALL
-                    | DateUtils.FORMAT_SHOW_WEEKDAY;
-            return DateUtils.formatDateTime(context, localDate, flags);
+            return convertMillisToFormattedDate(dateInMillis, REST_DAYS_DATE_FORMAT);
         }
 
     }

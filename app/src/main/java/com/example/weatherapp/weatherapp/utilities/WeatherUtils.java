@@ -10,7 +10,7 @@ public final class WeatherUtils {
         return temperatureInCelsius * 1.8 + 32;
     }
 
-    public static String formatTemperature(Context context, double temperature) {
+    private static String formatTemperature(Context context, double temperature) {
         int temperatureFormat = R.string.format_temperature_celsius;
         if (!AppPreferences.isMetric(context)) {
             temperature = celsiusToFahrenheit(temperature);
@@ -25,6 +25,10 @@ public final class WeatherUtils {
         String formattedHigh = formatTemperature(context, roundedHigh);
         String formattedLow = formatTemperature(context, roundedLow);
         return formattedHigh + " / " + formattedLow;
+    }
+
+    public static double kelvinToCelsius(double temperatureInKelvins) {
+        return temperatureInKelvins - 273.15;
     }
 
 }
