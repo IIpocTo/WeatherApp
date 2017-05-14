@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.weatherapp.weatherapp.data.AppPreferences;
@@ -18,6 +20,8 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mWeatherTextView;
+    private TextView mRefreshErrorTextView;
+    private ProgressBar mRefreshProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mWeatherTextView = (TextView) findViewById(R.id.tv_weather_data);
+        mRefreshErrorTextView = (TextView) findViewById(R.id.tv_error_refresh_message);
+        mRefreshProgressBar = (ProgressBar) findViewById(R.id.pb_refresh_indicator);
 
         loadWeatherData();
     }
@@ -52,7 +58,23 @@ public class MainActivity extends AppCompatActivity {
         new FetchWeatherTask().execute(location);
     }
 
+    private void showForecast() {
+        mRefreshErrorTextView.setVisibility(View.INVISIBLE);
+        mWeatherTextView.setVisibility(View.VISIBLE);
+    }
+
+    private void showErrorMessage() {
+        mWeatherTextView.setVisibility(View.INVISIBLE);
+        mRefreshErrorTextView.setVisibility(View.VISIBLE);
+    }
+
     private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
+
+        @Override
+        protected void onPreExecute() {
+            mRefreshProgressBar.setVisibility(View.VISIBLE);
+            super.onPreExecute();
+        }
 
         @Override
         protected String[] doInBackground(String... params) {
@@ -76,10 +98,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String[] weatherData) {
+            mRefreshProgressBar.setVisibility(View.INVISIBLE);
             if (weatherData != null) {
                 for (String weather : weatherData) {
+                    showForecast();
                     mWeatherTextView.append(weather + "\n\n\n");
                 }
+            } else {
+                showErrorMessage();
             }
         }
     }
