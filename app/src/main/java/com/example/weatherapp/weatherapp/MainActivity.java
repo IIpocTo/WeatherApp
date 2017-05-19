@@ -20,12 +20,13 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ForecastAdapter.ForecastAdapterOnClickHandler {
 
     private RecyclerView mRecyclerView;
     private ForecastAdapter mForecastAdapter;
     private TextView mRefreshErrorTextView;
     private ProgressBar mRefreshProgressBar;
+    private Toast mClickedDataToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_forecast);
-        mForecastAdapter = new ForecastAdapter();
+        mForecastAdapter = new ForecastAdapter(this);
         mRefreshErrorTextView = (TextView) findViewById(R.id.tv_error_refresh_message);
         mRefreshProgressBar = (ProgressBar) findViewById(R.id.pb_refresh_indicator);
 
@@ -43,24 +44,6 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mForecastAdapter);
 
         loadWeatherData();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.forecast, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int selectedMenuItemId = item.getItemId();
-        if (selectedMenuItemId == R.id.action_refresh) {
-            mForecastAdapter.setWeatherData(null);
-            loadWeatherData();
-            Toast.makeText(this, R.string.toast_refresh_message, Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void loadWeatherData() {
@@ -76,6 +59,32 @@ public class MainActivity extends AppCompatActivity {
     private void showErrorMessage() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mRefreshErrorTextView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.forecast, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int selectedMenuItemId = item.getItemId();
+        if (selectedMenuItemId == R.id.action_refresh) {
+            mForecastAdapter.setWeatherData(null);
+            loadWeatherData();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onListWeatherItemClick(String clickedData) {
+        if (mClickedDataToast != null) {
+            mClickedDataToast.cancel();
+        }
+        mClickedDataToast = Toast.makeText(this, clickedData, Toast.LENGTH_LONG);
+        mClickedDataToast.show();
     }
 
     private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
@@ -110,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String[] weatherData) {
             mRefreshProgressBar.setVisibility(View.INVISIBLE);
             if (weatherData != null) {
+                showForecast();
                 mForecastAdapter.setWeatherData(weatherData);
             } else {
                 showErrorMessage();
