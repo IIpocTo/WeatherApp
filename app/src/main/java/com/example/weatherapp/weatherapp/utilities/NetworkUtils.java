@@ -2,6 +2,8 @@ package com.example.weatherapp.weatherapp.utilities;
 
 import android.net.Uri;
 
+import com.example.weatherapp.weatherapp.data.AppPreferences;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -16,6 +18,7 @@ public final class NetworkUtils {
     private static final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast";
     private static final String QUERY_PARAM = "q";
     private static final String APP_PARAM = "appid";
+    private static final String GOOGLE_MAPS_SCHEME = "geo";
 
     public static URL buildUrl(String locationQuery) {
         URL url = null;
@@ -29,6 +32,13 @@ public final class NetworkUtils {
             e.printStackTrace();
         }
         return url;
+    }
+
+    public static Uri buildMapUri() {
+        return new Uri.Builder().scheme(GOOGLE_MAPS_SCHEME)
+                .appendPath("0,0")
+                .appendQueryParameter(QUERY_PARAM, AppPreferences.DEFAULT_WEATHER_LOCATION)
+                .build();
     }
 
     public static String getResponseFromHttpUrl(URL url) throws IOException {

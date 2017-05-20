@@ -1,11 +1,16 @@
 package com.example.weatherapp.weatherapp;
 
 import android.content.Intent;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class DetailActivity extends AppCompatActivity {
+
+    private static final String FORECAST_HASHTAG = "#WeatherApp";
 
     private TextView mDetailForecastTextView;
 
@@ -25,4 +30,24 @@ public class DetailActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int selectedItemId = item.getItemId();
+        if (selectedItemId == R.id.action_share) {
+            ShareCompat.IntentBuilder.from(this)
+                    .setType("plain/text")
+                    .setText(mDetailForecastTextView.getText() + FORECAST_HASHTAG)
+                    .startChooser();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

@@ -4,8 +4,10 @@
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
 
-    <string name="action_refresh">Refresh</string>
-    <string name="toast_refresh_message">Refreshed</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_map">Show map</string>
+    <string name="menu_share">Share</string>
+
     <string name="error_refresh_message">Failed to get results. Please try again by clicking REFRESH!</string>
 
     <string name="format_temperature_celsius">

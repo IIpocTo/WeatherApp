@@ -4,7 +4,7 @@ import android.content.Context;
 
 public class AppPreferences {
 
-    private static final String DEFAULT_WEATHER_LOCATION = "Moscow";
+    public static final String DEFAULT_WEATHER_LOCATION = "Moscow,Russia";
 
     public static boolean isMetric(Context context) {
         return true;

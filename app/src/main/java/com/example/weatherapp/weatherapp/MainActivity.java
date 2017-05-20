@@ -1,17 +1,18 @@
 package com.example.weatherapp.weatherapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.weatherapp.weatherapp.adapters.ForecastAdapter;
 import com.example.weatherapp.weatherapp.data.AppPreferences;
@@ -25,11 +26,12 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements ForecastAdapter.ForecastAdapterOnClickHandler {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private RecyclerView mRecyclerView;
     private ForecastAdapter mForecastAdapter;
     private TextView mRefreshErrorTextView;
     private ProgressBar mRefreshProgressBar;
-    private Toast mClickedDataToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,15 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
         if (selectedMenuItemId == R.id.action_refresh) {
             mForecastAdapter.setWeatherData(null);
             loadWeatherData();
+            return true;
+        } else if (selectedMenuItemId == R.id.action_show_map) {
+            Uri forecastLocationUri = NetworkUtils.buildMapUri();
+            Intent showMapIntent = new Intent(Intent.ACTION_VIEW, forecastLocationUri);
+            if (showMapIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(showMapIntent);
+            } else {
+                Log.d(TAG, "Couldn't open map, no needed app installed.");
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
