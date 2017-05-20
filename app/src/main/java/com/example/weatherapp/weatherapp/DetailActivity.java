@@ -17,9 +17,11 @@ public class DetailActivity extends AppCompatActivity {
         mDetailForecastTextView = (TextView) findViewById(R.id.tv_detail_forecast);
 
         Intent intentThatStartedActivity = getIntent();
-        if (intentThatStartedActivity.hasExtra(Intent.EXTRA_TEXT)) {
-            String forecastData = intentThatStartedActivity.getStringExtra(Intent.EXTRA_TEXT);
-            mDetailForecastTextView.setText(forecastData);
+        if (intentThatStartedActivity != null) {
+            if (intentThatStartedActivity.hasExtra(Intent.EXTRA_TEXT)) {
+                String forecastData = intentThatStartedActivity.getStringExtra(Intent.EXTRA_TEXT);
+                mDetailForecastTextView.setText(forecastData);
+            }
         }
 
     }
