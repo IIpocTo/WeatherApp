@@ -1,5 +1,6 @@
 package com.example.weatherapp.weatherapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -82,11 +83,8 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
 
     @Override
     public void onListWeatherItemClick(String clickedData) {
-        if (mClickedDataToast != null) {
-            mClickedDataToast.cancel();
-        }
-        mClickedDataToast = Toast.makeText(this, clickedData, Toast.LENGTH_LONG);
-        mClickedDataToast.show();
+        Intent detailIntent = new Intent(this, DetailActivity.class);
+        startActivity(detailIntent);
     }
 
     private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
