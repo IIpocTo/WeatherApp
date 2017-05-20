@@ -1,6 +1,7 @@
 package com.example.weatherapp.weatherapp.utilities;
 
 import android.content.Context;
+
 import com.example.weatherapp.weatherapp.R;
 import com.example.weatherapp.weatherapp.data.AppPreferences;
 

@@ -11,10 +11,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.weatherapp.weatherapp.adapters.ForecastAdapter;
 import com.example.weatherapp.weatherapp.data.AppPreferences;
 import com.example.weatherapp.weatherapp.utilities.NetworkUtils;
 import com.example.weatherapp.weatherapp.utilities.OpenWeatherJsonUtils;
+
 import org.json.JSONException;
 
 import java.io.IOException;

@@ -1,6 +1,7 @@
 package com.example.weatherapp.weatherapp.utilities;
 
 import android.content.Context;
+
 import com.example.weatherapp.weatherapp.R;
 
 import java.text.SimpleDateFormat;
@@ -42,7 +43,7 @@ public final class DateTimeUtils {
         if (isToday(formatter, dateInMillis)) {
             String formattedDate = convertMillisToFormattedDate(dateInMillis, TODAY_AND_TOMORROW_DATE_FORMAT);
             return context.getString(R.string.today) + ", " + formattedDate;
-        } else if (isTomorrow(formatter, dateInMillis)){
+        } else if (isTomorrow(formatter, dateInMillis)) {
             String formattedDate = convertMillisToFormattedDate(dateInMillis, TODAY_AND_TOMORROW_DATE_FORMAT);
             return context.getString(R.string.tomorrow) + ", " + formattedDate;
         } else {
