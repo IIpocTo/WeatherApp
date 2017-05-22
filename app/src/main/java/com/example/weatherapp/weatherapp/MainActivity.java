@@ -2,7 +2,9 @@ package com.example.weatherapp.weatherapp;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,9 +26,12 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity implements ForecastAdapter.ForecastAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity
+        implements ForecastAdapter.ForecastAdapterOnClickHandler, LoaderManager.LoaderCallbacks<String[]> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int WEATHER_LOADER_ID = 42;
+    private static final String WEATHER_SEARCH_LOCATION = "search_location";
 
     private RecyclerView mRecyclerView;
     private ForecastAdapter mForecastAdapter;
@@ -52,8 +57,19 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
     }
 
     private void loadWeatherData() {
+
         String location = AppPreferences.getPreferredWeatherLocation(this);
-        new FetchWeatherTask().execute(location);
+        Bundle weatherBundle = new Bundle();
+        weatherBundle.putString(WEATHER_SEARCH_LOCATION, location);
+
+        LoaderManager weatherLoaderManager = getSupportLoaderManager();
+        Loader<Object> weatherLoader = weatherLoaderManager.getLoader(WEATHER_LOADER_ID);
+        if (weatherLoader == null) {
+            weatherLoaderManager.initLoader(WEATHER_LOADER_ID, weatherBundle, this);
+        } else {
+            weatherLoaderManager.restartLoader(WEATHER_LOADER_ID, weatherBundle, this);
+        }
+
     }
 
     private void showForecast() {
@@ -99,44 +115,64 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
         startActivity(detailIntent);
     }
 
-    private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
+    @Override
+    public Loader<String[]> onCreateLoader(int id, final Bundle args) {
+        return new AsyncTaskLoader<String[]>(this) {
 
-        @Override
-        protected void onPreExecute() {
-            mRefreshProgressBar.setVisibility(View.VISIBLE);
-            super.onPreExecute();
-        }
+            private String[] mWeatherData;
 
-        @Override
-        protected String[] doInBackground(String... params) {
+            @Override
+            protected void onStartLoading() {
+                super.onStartLoading();
 
-            if (params.length == 0) {
-                return null;
+                if (args != null) {
+                    mRefreshProgressBar.setVisibility(View.VISIBLE);
+                    if (mWeatherData != null) {
+                        deliverResult(mWeatherData);
+                    } else {
+                        forceLoad();
+                    }
+                }
+
             }
 
-            String location = params[0];
-            URL weatherRequestUrl = NetworkUtils.buildUrl(location);
-            try {
-                String jsonWeatherResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
-                return OpenWeatherJsonUtils
-                        .getSimpleWeatherStringFromJson(MainActivity.this, jsonWeatherResponse);
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-                return null;
+            @Override
+            public String[] loadInBackground() {
+                String location = args.getString(WEATHER_SEARCH_LOCATION);
+                URL weatherRequestUrl = NetworkUtils.buildUrl(location);
+                try {
+                    String jsonWeatherResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
+                    return OpenWeatherJsonUtils
+                            .getSimpleWeatherStringFromJson(MainActivity.this, jsonWeatherResponse);
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                    return null;
+                }
             }
 
-        }
-
-        @Override
-        protected void onPostExecute(String[] weatherData) {
-            mRefreshProgressBar.setVisibility(View.INVISIBLE);
-            if (weatherData != null) {
-                showForecast();
-                mForecastAdapter.setWeatherData(weatherData);
-            } else {
-                showErrorMessage();
+            @Override
+            public void deliverResult(String[] data) {
+                mWeatherData = data;
+                super.deliverResult(data);
             }
+
+        };
+    }
+
+    @Override
+    public void onLoadFinished(Loader<String[]> loader, String[] data) {
+        mRefreshProgressBar.setVisibility(View.INVISIBLE);
+        if (data != null) {
+            showForecast();
+            mForecastAdapter.setWeatherData(data);
+        } else {
+            showErrorMessage();
         }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<String[]> loader) {
+
     }
 
 }
