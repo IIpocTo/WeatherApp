@@ -126,10 +126,10 @@ public class MainActivity extends AppCompatActivity
                 super.onStartLoading();
 
                 if (args != null) {
-                    mRefreshProgressBar.setVisibility(View.VISIBLE);
                     if (mWeatherData != null) {
                         deliverResult(mWeatherData);
                     } else {
+                        mRefreshProgressBar.setVisibility(View.VISIBLE);
                         forceLoad();
                     }
                 }
