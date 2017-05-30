@@ -34,10 +34,10 @@ public final class NetworkUtils {
         return url;
     }
 
-    public static Uri buildMapUri() {
+    public static Uri buildMapUri(String location) {
         return new Uri.Builder().scheme(GOOGLE_MAPS_SCHEME)
                 .appendPath("0,0")
-                .appendQueryParameter(QUERY_PARAM, AppPreferences.DEFAULT_WEATHER_LOCATION)
+                .appendQueryParameter(QUERY_PARAM, location)
                 .build();
     }
 

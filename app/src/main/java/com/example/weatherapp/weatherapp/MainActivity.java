@@ -1,12 +1,14 @@
 package com.example.weatherapp.weatherapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,12 +28,16 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity
-        implements ForecastAdapter.ForecastAdapterOnClickHandler, LoaderManager.LoaderCallbacks<String[]> {
+public class MainActivity extends AppCompatActivity implements
+        ForecastAdapter.ForecastAdapterOnClickHandler,
+        LoaderManager.LoaderCallbacks<String[]>,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int WEATHER_LOADER_ID = 42;
     private static final String WEATHER_SEARCH_LOCATION = "search_location";
+
+    private static boolean isPreferencesUpdated = false;
 
     private RecyclerView mRecyclerView;
     private ForecastAdapter mForecastAdapter;
@@ -53,12 +59,28 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mForecastAdapter);
 
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+
         loadWeatherData();
+    }
+
+    @Override
+    protected void onStart() {
+        if (isPreferencesUpdated) {
+            loadWeatherData();
+        }
+        super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+        super.onDestroy();
     }
 
     private void loadWeatherData() {
 
-        String location = AppPreferences.getPreferredWeatherLocation(this);
+        String location = AppPreferences.getPreferredForecastLocation(this);
         Bundle weatherBundle = new Bundle();
         weatherBundle.putString(WEATHER_SEARCH_LOCATION, location);
 
@@ -96,13 +118,18 @@ public class MainActivity extends AppCompatActivity
             loadWeatherData();
             return true;
         } else if (selectedMenuItemId == R.id.action_show_map) {
-            Uri forecastLocationUri = NetworkUtils.buildMapUri();
+            String forecastLocation = AppPreferences.getPreferredForecastLocation(this);
+            Uri forecastLocationUri = NetworkUtils.buildMapUri(forecastLocation);
             Intent showMapIntent = new Intent(Intent.ACTION_VIEW, forecastLocationUri);
             if (showMapIntent.resolveActivity(getPackageManager()) != null) {
                 startActivity(showMapIntent);
             } else {
                 Log.d(TAG, "Couldn't open map, no needed app installed.");
             }
+            return true;
+        } else if (selectedMenuItemId == R.id.action_settings) {
+            Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
+            startActivity(startSettingsActivity);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -173,6 +200,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoaderReset(Loader<String[]> loader) {
 
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        isPreferencesUpdated = true;
     }
 
 }

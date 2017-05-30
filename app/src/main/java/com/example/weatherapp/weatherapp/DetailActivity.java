@@ -39,12 +39,16 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int selectedItemId = item.getItemId();
-        if (selectedItemId == R.id.action_share) {
+        int selectedMenuItemId = item.getItemId();
+        if (selectedMenuItemId == R.id.action_share) {
             ShareCompat.IntentBuilder.from(this)
                     .setType("plain/text")
                     .setText(mDetailForecastTextView.getText() + FORECAST_HASHTAG)
                     .startChooser();
+            return true;
+        } else if (selectedMenuItemId == R.id.action_settings) {
+            Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
+            startActivity(startSettingsActivity);
             return true;
         }
         return super.onOptionsItemSelected(item);
