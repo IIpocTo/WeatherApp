@@ -2,8 +2,6 @@ package com.example.weatherapp.weatherapp.utilities;
 
 import android.net.Uri;
 
-import com.example.weatherapp.weatherapp.data.AppPreferences;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;

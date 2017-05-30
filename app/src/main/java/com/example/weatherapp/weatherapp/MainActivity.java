@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final int WEATHER_LOADER_ID = 42;
     private static final String WEATHER_SEARCH_LOCATION = "search_location";
 
+    private static String[] cachedWeatherData;
     private static boolean isPreferencesUpdated = false;
 
     private RecyclerView mRecyclerView;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onStart() {
         if (isPreferencesUpdated) {
             loadWeatherData();
+            isPreferencesUpdated = false;
         }
         super.onStart();
     }
@@ -146,17 +148,18 @@ public class MainActivity extends AppCompatActivity implements
     public Loader<String[]> onCreateLoader(int id, final Bundle args) {
         return new AsyncTaskLoader<String[]>(this) {
 
-            private String[] mWeatherData;
+            private String previousSearchLocation = "";
 
             @Override
             protected void onStartLoading() {
                 super.onStartLoading();
 
                 if (args != null) {
-                    if (mWeatherData != null) {
-                        deliverResult(mWeatherData);
+                    if (previousSearchLocation.equals(args.getString(WEATHER_SEARCH_LOCATION))) {
+                        deliverResult(cachedWeatherData);
                     } else {
                         mRefreshProgressBar.setVisibility(View.VISIBLE);
+                        previousSearchLocation = args.getString(WEATHER_SEARCH_LOCATION);
                         forceLoad();
                     }
                 }
@@ -172,14 +175,14 @@ public class MainActivity extends AppCompatActivity implements
                     return OpenWeatherJsonUtils
                             .getSimpleWeatherStringFromJson(MainActivity.this, jsonWeatherResponse);
                 } catch (IOException | JSONException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, e.getLocalizedMessage());
                     return null;
                 }
             }
 
             @Override
             public void deliverResult(String[] data) {
-                mWeatherData = data;
+                cachedWeatherData = data;
                 super.deliverResult(data);
             }
 
@@ -189,9 +192,9 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader<String[]> loader, String[] data) {
         mRefreshProgressBar.setVisibility(View.INVISIBLE);
+        mForecastAdapter.setWeatherData(data);
         if (data != null) {
             showForecast();
-            mForecastAdapter.setWeatherData(data);
         } else {
             showErrorMessage();
         }
