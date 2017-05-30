@@ -31,22 +31,25 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    private Intent createShareForecastIntent() {
+        return ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setText(mDetailForecastTextView.getText() + FORECAST_HASHTAG)
+                .getIntent();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_share);
+        menuItem.setIntent(createShareForecastIntent());
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int selectedMenuItemId = item.getItemId();
-        if (selectedMenuItemId == R.id.action_share) {
-            ShareCompat.IntentBuilder.from(this)
-                    .setType("plain/text")
-                    .setText(mDetailForecastTextView.getText() + FORECAST_HASHTAG)
-                    .startChooser();
-            return true;
-        } else if (selectedMenuItemId == R.id.action_settings) {
+        if (selectedMenuItemId == R.id.action_settings) {
             Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
             startActivity(startSettingsActivity);
             return true;
