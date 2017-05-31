@@ -10,16 +10,16 @@ import java.net.HttpURLConnection;
 
 public final class OpenWeatherJsonUtils {
 
+    private static final String OWM_LIST = "list";
+    private static final String OWM_MAX = "temp_max";
+    private static final String OWM_MIN = "temp_min";
+    private static final String OWM_WEATHER = "weather";
+    private static final String OWM_DESCRIPTION = "main";
+    private static final String OWM_MESSAGE_CODE = "cod";
+    private static final String OWM_DATETIME = "dt";
+
     public static String[] getSimpleWeatherStringFromJson(Context context, String forecastJsonString)
             throws JSONException {
-
-        final String OWM_LIST = "list";
-        final String OWM_MAX = "temp_max";
-        final String OWM_MIN = "temp_min";
-        final String OWM_WEATHER = "weather";
-        final String OWM_DESCRIPTION = "main";
-        final String OWM_MESSAGE_CODE = "cod";
-        final String OWM_DATETIME = "dt";
 
         String[] parsedWeatherData;
         JSONObject forecastJson = new JSONObject(forecastJsonString);
