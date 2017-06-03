@@ -13,18 +13,23 @@
         <activity android:name=".MainActivity" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".DetailActivity"
-            android:parentActivityName=".MainActivity">
+        <activity android:name=".DetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
         </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity">
+        <activity android:name=".SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
         </activity>
+        <provider
+            android:authorities="com.example.weatherapp.weatherapp"
+            android:name=".data.WeatherProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -14,7 +14,7 @@ public final class DateTimeUtils {
     private static final int SECOND_IN_MILLIS = 1000;
     private static final int MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;
     private static final int HOURS_IN_MILLIS = MINUTE_IN_MILLIS * 60;
-    private static final int DAY_IN_MILLIS = HOURS_IN_MILLIS * 24;
+    public static final int DAY_IN_MILLIS = HOURS_IN_MILLIS * 24;
 
     private static final String TODAY_AND_TOMORROW_DATE_FORMAT = "k:mm";
     private static final String REST_DAYS_DATE_FORMAT = "EEEE MMMM, dd k:mm";
