@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements
         showLoadingIndicator();
         getSupportLoaderManager().initLoader(WEATHER_LOADER_ID, null, this);
 
-        WeatherAppSyncUtils.startImmediateSync(this);
+        WeatherAppSyncUtils.initialize(this);
     }
 
     private void showForecast() {
