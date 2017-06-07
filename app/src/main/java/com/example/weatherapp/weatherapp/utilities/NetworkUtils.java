@@ -1,6 +1,12 @@
 package com.example.weatherapp.weatherapp.utilities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v7.preference.PreferenceManager;
+
+import com.example.weatherapp.weatherapp.R;
+import com.example.weatherapp.weatherapp.data.AppPreferences;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +24,10 @@ public final class NetworkUtils {
     private static final String APP_PARAM = "appid";
     private static final String GOOGLE_MAPS_SCHEME = "geo";
 
-    public static URL buildUrl(String locationQuery) {
+    public static URL buildUrl(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String locationQuery = sharedPreferences.getString(context.getString(R.string.forecast_location_key),
+                context.getString(R.string.default_forecast_location));
         URL url = null;
         Uri uri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                 .appendQueryParameter(QUERY_PARAM, locationQuery)

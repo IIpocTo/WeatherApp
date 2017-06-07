@@ -31,7 +31,7 @@ class TestUtilities {
         testContentValues.put(WeatherEntry.COLUMN_MIN_TEMP, 30);
         testContentValues.put(WeatherEntry.COLUMN_MAX_TEMP, 50);
         testContentValues.put(WeatherEntry.COLUMN_PRESSURE, 1.3);
-        testContentValues.put(WeatherEntry.COLUMN_HUMIDITY, 1.2);
+        testContentValues.put(WeatherEntry.COLUMN_HUMIDITY, 22.2);
         testContentValues.put(WeatherEntry.COLUMN_WIND_DIR, 1.1);
         testContentValues.put(WeatherEntry.COLUMN_WIND_SPEED, 1.5);
         return testContentValues;
@@ -49,7 +49,7 @@ class TestUtilities {
             contentValues.put(WeatherEntry.COLUMN_WEATHER_ID, 321);
             contentValues.put(WeatherEntry.COLUMN_MIN_TEMP, 65 - i);
             contentValues.put(WeatherEntry.COLUMN_MAX_TEMP, 75 + i);
-            contentValues.put(WeatherEntry.COLUMN_HUMIDITY, 1.2);
+            contentValues.put(WeatherEntry.COLUMN_HUMIDITY, 22.3);
             contentValues.put(WeatherEntry.COLUMN_PRESSURE, 1.9);
             contentValues.put(WeatherEntry.COLUMN_WIND_SPEED, 5.5);
             contentValues.put(WeatherEntry.COLUMN_WIND_DIR, 1.5);

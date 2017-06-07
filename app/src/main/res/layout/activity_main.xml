@@ -13,15 +13,6 @@
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/tv_error_refresh_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/error_refresh_message"
-            android:padding="16dp"
-            android:textSize="22sp"
-            android:visibility="invisible"/>
-
         <ProgressBar
             android:id="@+id/pb_refresh_indicator"
             android:layout_gravity="center"

@@ -1,5 +1,7 @@
 package com.example.weatherapp.weatherapp.adapters;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,18 +9,29 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.weatherapp.weatherapp.R;
+import com.example.weatherapp.weatherapp.utilities.DateTimeUtils;
+import com.example.weatherapp.weatherapp.utilities.WeatherUtils;
+
+import static com.example.weatherapp.weatherapp.data.WeatherContract.WeatherEntry;
 
 public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapterViewHolder> {
 
-    private String[] mWeatherData;
+    private final Context mContext;
     private final ForecastAdapterOnClickHandler mClickHandler;
 
-    public ForecastAdapter(ForecastAdapterOnClickHandler clickHandler) {
-        this.mClickHandler = clickHandler;
+    private Cursor mCursor;
+
+    public interface ForecastAdapterOnClickHandler {
+        void onListWeatherItemClick(long clickedItemDate);
     }
 
-    public void setWeatherData(String[] weatherData) {
-        mWeatherData = weatherData;
+    public ForecastAdapter(ForecastAdapterOnClickHandler clickHandler, Context context) {
+        this.mClickHandler = clickHandler;
+        this.mContext = context;
+    }
+
+    public void swapCursor(Cursor newCursor) {
+        mCursor = newCursor;
         notifyDataSetChanged();
     }
 
@@ -31,12 +44,20 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     @Override
     public void onBindViewHolder(ForecastAdapterViewHolder holder, int position) {
-        holder.mWeatherTextView.setText(mWeatherData[position]);
+        mCursor.moveToPosition(position);
+        long date = mCursor.getLong(WeatherEntry.INDEX_COLUMN_DATE);
+        String dateString = DateTimeUtils.getReadableDateString(mContext, date);
+        int weatherConditionId = mCursor.getInt(WeatherEntry.INDEX_COLUMN_WEATHER_ID);
+        String description = WeatherUtils.getStringForWeatherCondition(mContext, weatherConditionId);
+        int min = mCursor.getInt(WeatherEntry.INDEX_COLUMN_MIN);
+        int max = mCursor.getInt(WeatherEntry.INDEX_COLUMN_MAX);
+        String highLowTemp = WeatherUtils.formatHighLows(mContext, min, max);
+        holder.mWeatherTextView.setText(dateString + " - " + description + " - " + highLowTemp);
     }
 
     @Override
     public int getItemCount() {
-        return mWeatherData == null ? 0 : mWeatherData.length;
+        return mCursor == null ? 0 : mCursor.getCount();
     }
 
     public class ForecastAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -51,13 +72,9 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
         @Override
         public void onClick(View v) {
-            int adapterPosition = getAdapterPosition();
-            mClickHandler.onListWeatherItemClick(mWeatherData[adapterPosition]);
+            mCursor.moveToPosition(getAdapterPosition());
+            mClickHandler.onListWeatherItemClick(mCursor.getLong(WeatherEntry.INDEX_COLUMN_DATE));
         }
-    }
-
-    public interface ForecastAdapterOnClickHandler {
-        void onListWeatherItemClick(String clickedData);
     }
 
 }
