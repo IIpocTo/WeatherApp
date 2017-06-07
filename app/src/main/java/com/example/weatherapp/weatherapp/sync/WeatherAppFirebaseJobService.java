@@ -10,13 +10,18 @@ public class WeatherAppFirebaseJobService extends JobService {
     private AsyncTask<Void, Void, Void> mFetchWeatherTask;
 
     @Override
-    public boolean onStartJob(JobParameters job) {
+    public boolean onStartJob(final JobParameters job) {
         mFetchWeatherTask = new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... params) {
-                WeatherAppSyncUtils.startImmediateSync(WeatherAppFirebaseJobService.this);
+                WeatherAppSyncTask.syncWeather(WeatherAppFirebaseJobService.this);
                 return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                jobFinished(job, false);
             }
 
         };
