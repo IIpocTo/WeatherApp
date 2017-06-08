@@ -49,8 +49,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         String dateString = DateTimeUtils.getReadableDateString(mContext, date);
         int weatherConditionId = mCursor.getInt(WeatherEntry.INDEX_COLUMN_WEATHER_ID);
         String description = WeatherUtils.getStringForWeatherCondition(mContext, weatherConditionId);
-        int min = mCursor.getInt(WeatherEntry.INDEX_COLUMN_MIN);
-        int max = mCursor.getInt(WeatherEntry.INDEX_COLUMN_MAX);
+        double min = mCursor.getDouble(WeatherEntry.INDEX_COLUMN_MIN);
+        double max = mCursor.getDouble(WeatherEntry.INDEX_COLUMN_MAX);
         String highLowTemp = WeatherUtils.formatHighLows(mContext, min, max);
         holder.mWeatherTextView.setText(dateString + " - " + description + " - " + highLowTemp);
     }

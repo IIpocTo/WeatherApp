@@ -28,10 +28,8 @@ public final class WeatherUtils {
     }
 
     public static String formatHighLows(Context context, double high, double low) {
-        long roundedHigh = Math.round(high);
-        long roundedLow = Math.round(low);
-        String formattedHigh = formatTemperature(context, roundedHigh);
-        String formattedLow = formatTemperature(context, roundedLow);
+        String formattedHigh = formatTemperature(context, high);
+        String formattedLow = formatTemperature(context, low);
         return formattedHigh + " / " + formattedLow;
     }
 

@@ -33,11 +33,11 @@
 
 
     <string name="format_temperature_celsius">
-        <xliff:g id="temp">%1.0f</xliff:g>\u00B0C
+        <xliff:g id="temp">%1.1f</xliff:g>\u00B0C
     </string>
 
     <string name="format_temperature_fahrenheit">
-        <xliff:g id="temp">%1.0f</xliff:g>\u00B0F
+        <xliff:g id="temp">%1.1f</xliff:g>\u00B0F
     </string>
 
     <string name="wind_label">Wind</string>
