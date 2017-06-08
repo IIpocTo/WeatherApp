@@ -21,4 +21,30 @@ public class AppPreferences {
                 context.getString(R.string.default_forecast_location));
     }
 
+    public static boolean isNotificationsEnabled(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String displayNotificationsKey = context.getString(R.string.pref_enable_notifications_key);
+        boolean defaultShowNotifications = context.getResources().getBoolean(R.bool.show_notifications);
+        return sharedPreferences.getBoolean(displayNotificationsKey, defaultShowNotifications);
+    }
+
+    public static void saveLastNotificationTime(Context context, long timeOfNotification) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String lastNotificationKey = context.getString(R.string.pref_last_notification);
+        editor.putLong(lastNotificationKey, timeOfNotification);
+        editor.apply();
+    }
+
+    public static long getEllapsedTimeSinceLastNotification(Context context) {
+        long lastModificationTime = getLastModificationTime(context);
+        return System.currentTimeMillis() - lastModificationTime;
+    }
+
+    private static long getLastModificationTime(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String lastNotificationKey = context.getString(R.string.pref_last_notification);
+        return sharedPreferences.getLong(lastNotificationKey, 0);
+    }
+
 }

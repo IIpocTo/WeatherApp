@@ -125,8 +125,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             String dateString = DateTimeUtils.getReadableDateString(this, data.getLong(WeatherEntry.INDEX_COLUMN_DATE));
             int weatherId = data.getInt(WeatherEntry.INDEX_COLUMN_WEATHER_ID);
             String weatherDescription = WeatherUtils.getStringForWeatherCondition(this, weatherId);
-            String highTemp = WeatherUtils.formatTemperature(this, data.getInt(WeatherEntry.INDEX_COLUMN_MAX));
-            String lowTemp = WeatherUtils.formatTemperature(this, data.getInt(WeatherEntry.INDEX_COLUMN_MIN));
+            String highTemp = WeatherUtils.formatTemperature(this, data.getDouble(WeatherEntry.INDEX_COLUMN_MAX));
+            String lowTemp = WeatherUtils.formatTemperature(this, data.getDouble(WeatherEntry.INDEX_COLUMN_MIN));
             float humidity = data.getFloat(WeatherEntry.INDEX_COLUMN_HUMIDITY);
             String humidityString = getString(R.string.format_humidity, humidity);
             float pressure = data.getFloat(WeatherEntry.INDEX_COLUMN_PRESSURE);

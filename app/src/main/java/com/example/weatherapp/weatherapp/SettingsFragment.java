@@ -3,12 +3,12 @@ package com.example.weatherapp.weatherapp;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 
-import com.example.weatherapp.weatherapp.data.AppPreferences;
 import com.example.weatherapp.weatherapp.sync.WeatherAppSyncUtils;
 
 import static com.example.weatherapp.weatherapp.data.WeatherContract.WeatherEntry;
@@ -37,14 +37,16 @@ public class SettingsFragment extends PreferenceFragmentCompat
         int preferenceCount = preferenceScreen.getPreferenceCount();
         for (int i = 0; i < preferenceCount; i++) {
             Preference preference = preferenceScreen.getPreference(i);
-            setPreferenceSummary(preference, sharedPreferences);
+            if (!(preference instanceof CheckBoxPreference)) {
+                setPreferenceSummary(preference, sharedPreferences);
+            }
         }
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Preference preference = findPreference(key);
-        if (preference != null) {
+        if (preference != null && !(preference instanceof CheckBoxPreference)) {
             setPreferenceSummary(preference, sharedPreferences);
         }
         Activity activity = getActivity();

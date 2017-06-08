@@ -3,8 +3,13 @@ package com.example.weatherapp.weatherapp.sync;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
 
+import com.example.weatherapp.weatherapp.data.AppPreferences;
+import com.example.weatherapp.weatherapp.utilities.DateTimeUtils;
 import com.example.weatherapp.weatherapp.utilities.NetworkUtils;
+import com.example.weatherapp.weatherapp.utilities.NotificationUtils;
 import com.example.weatherapp.weatherapp.utilities.OpenWeatherJsonUtils;
 
 import org.json.JSONException;
@@ -25,6 +30,12 @@ public class WeatherAppSyncTask {
                 ContentResolver contentResolver = context.getContentResolver();
                 contentResolver.delete(WeatherEntry.CONTENT_URI, null, null);
                 contentResolver.bulkInsert(WeatherEntry.CONTENT_URI, weatherContentValues);
+                boolean notificationsEnabled = AppPreferences.isNotificationsEnabled(context);
+                long timeSinceLastNotification = AppPreferences.getEllapsedTimeSinceLastNotification(context);
+                boolean oneDayPassedSinceLastNotification = timeSinceLastNotification >= DateTimeUtils.DAY_IN_MILLIS;
+                if (notificationsEnabled && oneDayPassedSinceLastNotification) {
+                    NotificationUtils.notifyUserOfNewWeather(context);
+                }
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
