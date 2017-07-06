@@ -24,8 +24,8 @@ public class NotificationUtils {
     private static final int WEATHER_NOTIFICATION_ID = 3004;
     private static final String[] WEATHER_NOTIFICATION_PROJECTION = {
             WeatherEntry.COLUMN_WEATHER_ID,
-            WeatherEntry.COLUMN_MAX_TEMP,
-            WeatherEntry.COLUMN_MIN_TEMP
+            WeatherEntry.COLUMN_MIN_TEMP,
+            WeatherEntry.COLUMN_MAX_TEMP
     };
 
     private static final int INDEX_COLUMN_WEATHER_ID = 0;

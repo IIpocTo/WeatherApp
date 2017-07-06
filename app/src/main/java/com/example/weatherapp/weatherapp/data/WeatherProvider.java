@@ -46,11 +46,11 @@ public class WeatherProvider extends ContentProvider {
                         projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case CODE_WEATHER_WITH_DATE:
-                String date = uri.getPathSegments().get(1);
-                String mSelection = "date = ?";
+                String date = String.valueOf(Long.parseLong(uri.getLastPathSegment()) / 1000L);
+                String mSelection = WeatherEntry.COLUMN_DATE + " >= ?";
                 String[] mSelectionArgs = {date};
                 cursor = database.query(WeatherEntry.TABLE_NAME,
-                        projection, mSelection, mSelectionArgs, null, null, WeatherEntry.COLUMN_DATE);
+                        projection, mSelection, mSelectionArgs, null, null, WeatherEntry.COLUMN_DATE + " ASC");
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

@@ -36,7 +36,7 @@ public class AppPreferences {
         editor.apply();
     }
 
-    public static long getEllapsedTimeSinceLastNotification(Context context) {
+    public static long getElapsedTimeSinceLastNotification(Context context) {
         long lastModificationTime = getLastModificationTime(context);
         return System.currentTimeMillis() - lastModificationTime;
     }
