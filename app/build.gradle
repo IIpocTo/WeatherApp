@@ -28,5 +28,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.4.0'
     compile 'com.android.support:preference-v7:25.4.0'
     compile 'com.firebase:firebase-jobdispatcher:0.7.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
