@@ -17,10 +17,14 @@ import static com.example.weatherapp.weatherapp.data.WeatherContract.WeatherEntr
 
 public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapterViewHolder> {
 
+    public static final int NOW_VIEW_TYPE = 0;
+    public static final int FUTURE_VIEW_TYPE = 1;
+
     private final Context mContext;
     private final ForecastAdapterOnClickHandler mClickHandler;
 
     private Cursor mCursor;
+    private boolean mUseTodayLayout;
 
     public interface ForecastAdapterOnClickHandler {
         void onListWeatherItemClick(long clickedItemDate);
@@ -29,6 +33,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
     public ForecastAdapter(ForecastAdapterOnClickHandler clickHandler, Context context) {
         this.mClickHandler = clickHandler;
         this.mContext = context;
+        mUseTodayLayout = mContext.getResources().getBoolean(R.bool.use_today_layout);
     }
 
     public void swapCursor(Cursor newCursor) {
@@ -38,9 +43,26 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     @Override
     public ForecastAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        int layoutId;
+
+        switch (viewType) {
+            case NOW_VIEW_TYPE:
+                layoutId = R.layout.list_item_forecast_today;
+                break;
+            case FUTURE_VIEW_TYPE:
+                layoutId = R.layout.forecast_list_item;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid view type of " + viewType);
+        }
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.forecast_list_item, parent, false);
+        View view = inflater.inflate(layoutId, parent, false);
+        view.setFocusable(true);
+
         return new ForecastAdapterViewHolder(view);
+
     }
 
     @Override
@@ -53,7 +75,19 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         holder.dateView.setText(dateString);
 
         int weatherConditionId = mCursor.getInt(WeatherEntry.INDEX_COLUMN_WEATHER_ID);
-        int iconId = WeatherUtils.getSmallArtResourceIdForWeatherCondition(weatherConditionId);
+        int iconId;
+        int viewType = getItemViewType(position);
+
+        switch (viewType) {
+            case NOW_VIEW_TYPE:
+                iconId = WeatherUtils.getLargeArtResourceIdForWeatherCondition(weatherConditionId);
+                break;
+            case FUTURE_VIEW_TYPE:
+                iconId = WeatherUtils.getSmallArtResourceIdForWeatherCondition(weatherConditionId);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid view type of " + viewType);
+        }
         holder.iconView.setImageResource(iconId);
 
         String description = WeatherUtils.getStringForWeatherCondition(mContext, weatherConditionId);
@@ -71,6 +105,15 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
     @Override
     public int getItemCount() {
         return mCursor == null ? 0 : mCursor.getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mUseTodayLayout && position == 0) {
+            return NOW_VIEW_TYPE;
+        } else {
+            return FUTURE_VIEW_TYPE;
+        }
     }
 
     public class ForecastAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

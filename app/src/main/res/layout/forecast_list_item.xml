@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        tools:text="Today, September, 13"
+        tools:text="Today, September 13"
         app:layout_constraintLeft_toRightOf="@+id/weather_icon"
         app:layout_constraintBottom_toTopOf="@id/guideline"/>
 
@@ -50,7 +50,7 @@
         android:id="@+id/temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="14\u00b0"
+        tools:text="16.5\u00b0C"
         android:gravity="end"
         android:textSize="30sp"
         app:layout_constraintTop_toTopOf="@+id/guideline"

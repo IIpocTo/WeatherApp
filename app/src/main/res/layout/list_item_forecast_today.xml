@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             android:paddingBottom="16dp"
+                                             android:paddingTop="16dp"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/vertical_delimiter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="16dp"
+        android:textSize="20sp"
+        tools:text="Today, September 13"
+        app:layout_constraintBottom_toTopOf="@+id/weather_icon"/>
+
+    <ImageView
+        android:id="@+id/weather_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:adjustViewBounds="true"
+        tools:src="@drawable/art_clouds"
+        android:contentDescription="@string/a11y_forecast_icon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/vertical_delimiter"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/weatherDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Scattered Clouds"
+        app:layout_constraintTop_toBottomOf="@+id/weather_icon"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        app:layout_constraintRight_toRightOf="@+id/weather_icon"
+        app:layout_constraintLeft_toLeftOf="@+id/weather_icon"/>
+
+    <TextView
+        android:id="@+id/temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="16.5\u00b0C"
+        android:textSize="80sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/vertical_delimiter"
+        app:layout_constraintBottom_toBottomOf="@+id/weather_icon"
+        app:layout_constraintTop_toTopOf="@+id/weather_icon"/>
+
+</android.support.constraint.ConstraintLayout>
