@@ -2,6 +2,7 @@ package com.example.weatherapp.weatherapp;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.ShareCompat;
@@ -11,8 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
+import com.example.weatherapp.weatherapp.databinding.ActivityDetailBinding;
 import com.example.weatherapp.weatherapp.utilities.DateTimeUtils;
 import com.example.weatherapp.weatherapp.utilities.WeatherUtils;
 
@@ -34,25 +35,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     };
 
     private String mForecastSummary;
-    private TextView mWeatherDate;
-    private TextView mWeatherDescription;
-    private TextView mWeatherLowTemp;
-    private TextView mWeatherHumidity;
-    private TextView mWeatherPressure;
-    private TextView mWeatherWind;
     private Uri mUri;
+    private ActivityDetailBinding mDetailBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
-
-        mWeatherDate = (TextView) findViewById(R.id.tv_detail_date);
-        mWeatherDescription = (TextView) findViewById(R.id.tv_detail_description);
-        mWeatherLowTemp = (TextView) findViewById(R.id.tv_detail_temp);
-        mWeatherHumidity = (TextView) findViewById(R.id.tv_detail_humidity);
-        mWeatherPressure = (TextView) findViewById(R.id.tv_detail_pressure);
-        mWeatherWind = (TextView) findViewById(R.id.tv_detail_wind);
+        mDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
         Intent intentThatStartedActivity = getIntent();
         if (intentThatStartedActivity != null) {
@@ -131,12 +120,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             float windSpeed = data.getFloat(WeatherEntry.INDEX_COLUMN_WIND_SPEED);
             String formattedWindInfo = WeatherUtils.getFormattedWind(this, windSpeed, windDirection);
 
-            mWeatherDate.setText(dateString);
-            mWeatherDescription.setText(weatherDescription);
-            mWeatherLowTemp.setText(temperature);
-            mWeatherPressure.setText(pressureString);
-            mWeatherHumidity.setText(humidityString);
-            mWeatherWind.setText(formattedWindInfo);
+            mDetailBinding.tvDetailDate.setText(dateString);
+            mDetailBinding.tvDetailDescription.setText(weatherDescription);
+            mDetailBinding.tvDetailTemp.setText(temperature);
+            mDetailBinding.tvDetailPressure.setText(pressureString);
+            mDetailBinding.tvDetailHumidity.setText(humidityString);
+            mDetailBinding.tvDetailWind.setText(formattedWindInfo);
 
             mForecastSummary = String.format("%s - %s - %s - %s - %s - %s", dateString, weatherDescription,
                     temperature, humidityString, pressureString, formattedWindInfo);
