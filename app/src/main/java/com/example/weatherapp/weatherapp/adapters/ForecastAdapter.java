@@ -61,15 +61,10 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         holder.descriptionView.setText(description);
         holder.descriptionView.setContentDescription(descriptionA11y);
 
-        double lowTemp = mCursor.getDouble(WeatherEntry.INDEX_COLUMN_MIN);
-        String lowTempA11y = mContext.getString(R.string.a11y_low_temp, String.valueOf(lowTemp));
-        holder.lowTempView.setText(WeatherUtils.formatTemperature(mContext, lowTemp));
-        holder.lowTempView.setContentDescription(lowTempA11y);
-
-        double highTemp = mCursor.getDouble(WeatherEntry.INDEX_COLUMN_MAX);
-        String highTempA11y = mContext.getString(R.string.a11y_high_temp, String.valueOf(highTemp));
-        holder.highTempView.setText(WeatherUtils.formatTemperature(mContext, highTemp));
-        holder.highTempView.setContentDescription(highTempA11y);
+        double temp = mCursor.getDouble(WeatherEntry.INDEX_COLUMN_TEMP);
+        String tempA11y = mContext.getString(R.string.a11y_temp, String.valueOf(temp));
+        holder.tempView.setText(WeatherUtils.formatTemperature(mContext, temp));
+        holder.tempView.setContentDescription(tempA11y);
 
     }
 
@@ -83,16 +78,14 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         final ImageView iconView;
         final TextView dateView;
         final TextView descriptionView;
-        final TextView highTempView;
-        final TextView lowTempView;
+        final TextView tempView;
 
         public ForecastAdapterViewHolder(View itemView) {
             super(itemView);
             iconView = (ImageView) itemView.findViewById(R.id.weather_icon);
             dateView = (TextView) itemView.findViewById(R.id.date);
             descriptionView = (TextView) itemView.findViewById(R.id.weatherDescription);
-            highTempView = (TextView) itemView.findViewById(R.id.highTemp);
-            lowTempView = (TextView) itemView.findViewById(R.id.lowTemp);
+            tempView = (TextView) itemView.findViewById(R.id.temp);
             itemView.setOnClickListener(this);
         }
 

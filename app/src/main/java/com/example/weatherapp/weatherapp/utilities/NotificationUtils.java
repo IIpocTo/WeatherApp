@@ -24,21 +24,16 @@ public class NotificationUtils {
     private static final int WEATHER_NOTIFICATION_ID = 3004;
     private static final String[] WEATHER_NOTIFICATION_PROJECTION = {
             WeatherEntry.COLUMN_WEATHER_ID,
-            WeatherEntry.COLUMN_MIN_TEMP,
-            WeatherEntry.COLUMN_MAX_TEMP
+            WeatherEntry.COLUMN_TEMP,
     };
 
     private static final int INDEX_COLUMN_WEATHER_ID = 0;
-    private static final int INDEX_COLUMN_MIN = 1;
-    private static final int INDEX_COLUMN_MAX = 2;
+    private static final int INDEX_COLUMN_TEMP = 1;
 
-    private static String getNotificationText(Context context, int weatherId, double high, double low) {
+    private static String getNotificationText(Context context, int weatherId, double temp) {
         String description = WeatherUtils.getStringForWeatherCondition(context, weatherId);
         String notificationFormat = context.getString(R.string.format_notification);
-        return String.format(notificationFormat,
-                description,
-                WeatherUtils.formatTemperature(context, high),
-                WeatherUtils.formatTemperature(context, low));
+        return String.format(notificationFormat, description, WeatherUtils.formatTemperature(context, temp));
     }
 
     public static void notifyUserOfNewWeather(Context context) {
@@ -54,14 +49,13 @@ public class NotificationUtils {
         if (todayWeatherCursor.moveToFirst()) {
 
             int weatherId = todayWeatherCursor.getInt(INDEX_COLUMN_WEATHER_ID);
-            double maxTemp = todayWeatherCursor.getDouble(INDEX_COLUMN_MAX);
-            double minTemp = todayWeatherCursor.getDouble(INDEX_COLUMN_MIN);
+            double temp = todayWeatherCursor.getDouble(INDEX_COLUMN_TEMP);
 
             Resources resources = context.getResources();
             int largeArtResourceId = WeatherUtils.getLargeArtResourceIdForWeatherCondition(weatherId);
             Bitmap largeIcon = BitmapFactory.decodeResource(resources, largeArtResourceId);
             String notificationTitle = context.getString(R.string.app_name);
-            String notificationText = getNotificationText(context, weatherId, maxTemp, minTemp);
+            String notificationText = getNotificationText(context, weatherId, temp);
             int smallArtResourceId = WeatherUtils.getSmallArtResourceIdForWeatherCondition(weatherId);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)

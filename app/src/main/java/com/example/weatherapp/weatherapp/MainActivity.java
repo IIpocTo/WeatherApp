@@ -32,8 +32,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final String[] MAIN_FORECAST_PROJECTION = {
             WeatherEntry.COLUMN_DATE,
             WeatherEntry.COLUMN_WEATHER_ID,
-            WeatherEntry.COLUMN_MIN_TEMP,
-            WeatherEntry.COLUMN_MAX_TEMP
+            WeatherEntry.COLUMN_TEMP,
     };
 
     private RecyclerView mRecyclerView;

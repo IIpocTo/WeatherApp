@@ -56,6 +56,7 @@ public final class OpenWeatherJsonUtils {
             JSONObject mainWeatherObject = forecast.getJSONObject(OWM_MAIN_OBJECT);
             double maxTempInKelvins = mainWeatherObject.getDouble(OWM_MAX);
             double minTempInKelvins = mainWeatherObject.getDouble(OWM_MIN);
+            double avgTempInKelvins = (maxTempInKelvins + minTempInKelvins) / 2;
             int humidity = mainWeatherObject.getInt(OWM_HUMIDITY);
             double pressure = mainWeatherObject.getDouble(OWM_PRESSURE);
 
@@ -66,8 +67,7 @@ public final class OpenWeatherJsonUtils {
             ContentValues weatherContentValues = new ContentValues();
             weatherContentValues.put(WeatherEntry.COLUMN_DATE, dateTimeMillis);
             weatherContentValues.put(WeatherEntry.COLUMN_WEATHER_ID, weatherId);
-            weatherContentValues.put(WeatherEntry.COLUMN_MIN_TEMP, WeatherUtils.kelvinToCelsius(minTempInKelvins));
-            weatherContentValues.put(WeatherEntry.COLUMN_MAX_TEMP, WeatherUtils.kelvinToCelsius(maxTempInKelvins));
+            weatherContentValues.put(WeatherEntry.COLUMN_TEMP, WeatherUtils.kelvinToCelsius(avgTempInKelvins));
             weatherContentValues.put(WeatherEntry.COLUMN_HUMIDITY, humidity);
             weatherContentValues.put(WeatherEntry.COLUMN_PRESSURE, pressure);
             weatherContentValues.put(WeatherEntry.COLUMN_WIND_SPEED, windSpeed);

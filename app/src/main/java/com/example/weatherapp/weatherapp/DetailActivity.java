@@ -26,8 +26,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private static final String[] DETAIL_FORECAST_PROJECTION = {
             WeatherEntry.COLUMN_DATE,
             WeatherEntry.COLUMN_WEATHER_ID,
-            WeatherEntry.COLUMN_MAX_TEMP,
-            WeatherEntry.COLUMN_MIN_TEMP,
+            WeatherEntry.COLUMN_TEMP,
             WeatherEntry.COLUMN_HUMIDITY,
             WeatherEntry.COLUMN_PRESSURE,
             WeatherEntry.COLUMN_WIND_SPEED,
@@ -37,7 +36,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private String mForecastSummary;
     private TextView mWeatherDate;
     private TextView mWeatherDescription;
-    private TextView mWeatherHighTemp;
     private TextView mWeatherLowTemp;
     private TextView mWeatherHumidity;
     private TextView mWeatherPressure;
@@ -51,8 +49,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         mWeatherDate = (TextView) findViewById(R.id.tv_detail_date);
         mWeatherDescription = (TextView) findViewById(R.id.tv_detail_description);
-        mWeatherHighTemp = (TextView) findViewById(R.id.tv_detail_high_temp);
-        mWeatherLowTemp = (TextView) findViewById(R.id.tv_detail_low_temp);
+        mWeatherLowTemp = (TextView) findViewById(R.id.tv_detail_temp);
         mWeatherHumidity = (TextView) findViewById(R.id.tv_detail_humidity);
         mWeatherPressure = (TextView) findViewById(R.id.tv_detail_pressure);
         mWeatherWind = (TextView) findViewById(R.id.tv_detail_wind);
@@ -125,8 +122,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             String dateString = DateTimeUtils.getReadableDateString(this, data.getLong(WeatherEntry.INDEX_COLUMN_DATE));
             int weatherId = data.getInt(WeatherEntry.INDEX_COLUMN_WEATHER_ID);
             String weatherDescription = WeatherUtils.getStringForWeatherCondition(this, weatherId);
-            String highTemp = WeatherUtils.formatTemperature(this, data.getDouble(WeatherEntry.INDEX_COLUMN_MAX));
-            String lowTemp = WeatherUtils.formatTemperature(this, data.getDouble(WeatherEntry.INDEX_COLUMN_MIN));
+            String temperature = WeatherUtils.formatTemperature(this, data.getDouble(WeatherEntry.INDEX_COLUMN_TEMP));
             float humidity = data.getFloat(WeatherEntry.INDEX_COLUMN_HUMIDITY);
             String humidityString = getString(R.string.format_humidity, humidity);
             float pressure = data.getFloat(WeatherEntry.INDEX_COLUMN_PRESSURE);
@@ -137,14 +133,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
             mWeatherDate.setText(dateString);
             mWeatherDescription.setText(weatherDescription);
-            mWeatherHighTemp.setText(highTemp);
-            mWeatherLowTemp.setText(lowTemp);
+            mWeatherLowTemp.setText(temperature);
             mWeatherPressure.setText(pressureString);
             mWeatherHumidity.setText(humidityString);
             mWeatherWind.setText(formattedWindInfo);
 
-            mForecastSummary = String.format("%s - %s - %s/%s - %s - %s - %s", dateString, weatherDescription,
-                    highTemp, lowTemp, humidityString, pressureString, formattedWindInfo);
+            mForecastSummary = String.format("%s - %s - %s - %s - %s - %s", dateString, weatherDescription,
+                    temperature, humidityString, pressureString, formattedWindInfo);
 
         }
 

@@ -27,12 +27,6 @@ public final class WeatherUtils {
         return String.format(context.getString(temperatureFormat), temperature);
     }
 
-    public static String formatHighLows(Context context, double high, double low) {
-        String formattedHigh = formatTemperature(context, high);
-        String formattedLow = formatTemperature(context, low);
-        return formattedHigh + " / " + formattedLow;
-    }
-
     public static String getFormattedWind(Context context, float windSpeed, float degrees) {
 
         int windFormat = R.string.format_wind_kmh;

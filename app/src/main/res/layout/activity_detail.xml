@@ -19,13 +19,7 @@
         android:textSize="22sp"/>
 
     <TextView
-        android:id="@+id/tv_detail_high_temp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="22sp"/>
-
-    <TextView
-        android:id="@+id/tv_detail_low_temp"
+        android:id="@+id/tv_detail_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="22sp"/>
