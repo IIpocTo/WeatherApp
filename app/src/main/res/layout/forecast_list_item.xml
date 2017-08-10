@@ -19,7 +19,7 @@
         tools:src="@drawable/art_clouds"
         app:layout_constraintTop_toTopOf="@+id/guideline"
         app:layout_constraintBottom_toTopOf="@id/guideline"
-        android:contentDescription="@string/a11y_forecast_icon"/>
+        android:contentDescription="@string/a11y_forecast"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"

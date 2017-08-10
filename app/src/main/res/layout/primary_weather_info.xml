@@ -33,7 +33,7 @@
             android:layout_height="100dp"
             android:adjustViewBounds="true"
             tools:src="@drawable/art_clouds"
-            android:contentDescription="@string/a11y_forecast_icon"
+            android:contentDescription="@string/a11y_forecast"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/vertical_delimiter"
             app:layout_constraintTop_toTopOf="parent"

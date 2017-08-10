@@ -127,7 +127,6 @@
     </string>
 
     <string name="a11y_forecast">Forecast: <xliff:g id="condition">%1$s</xliff:g></string>
-    <string name="a11y_forecast_icon">Forecast icon: <xliff:g id="condition">%1$s</xliff:g></string>
     <string name="a11y_temp">Temperature: <xliff:g id="temp">%1$s</xliff:g></string>
     <string name="a11y_humidity">Humidity: <xliff:g id="humidity">%1$s</xliff:g></string>
     <string name="a11y_pressure">Barometric Pressure: <xliff:g id="pressure">%1$s</xliff:g></string>

@@ -103,25 +103,40 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         if (data != null && data.moveToFirst()) {
 
             String dateString = DateTimeUtils.getReadableDateString(this, data.getLong(WeatherEntry.INDEX_COLUMN_DATE));
+            mDetailBinding.primaryWeather.date.setText(dateString);
+
             int weatherId = data.getInt(WeatherEntry.INDEX_COLUMN_WEATHER_ID);
             int weatherIconId = WeatherUtils.getLargeArtResourceIdForWeatherCondition(weatherId);
+            mDetailBinding.primaryWeather.weatherIcon.setImageResource(weatherIconId);
+
             String weatherDescription = WeatherUtils.getStringForWeatherCondition(this, weatherId);
+            String descriptionA11y = getString(R.string.a11y_forecast, weatherDescription);
+            mDetailBinding.primaryWeather.weatherDescription.setText(weatherDescription);
+            mDetailBinding.primaryWeather.weatherDescription.setContentDescription(descriptionA11y);
+
             String temperature = WeatherUtils.formatTemperature(this, data.getDouble(WeatherEntry.INDEX_COLUMN_TEMP));
+            String tempA11y = getString(R.string.a11y_temp, temperature);
+            mDetailBinding.primaryWeather.temp.setText(temperature);
+            mDetailBinding.primaryWeather.temp.setContentDescription(tempA11y);
+
             float humidity = data.getFloat(WeatherEntry.INDEX_COLUMN_HUMIDITY);
+            String humidityA11y = getString(R.string.a11y_humidity, String.valueOf(humidity));
             String humidityString = getString(R.string.format_humidity, humidity);
+            mDetailBinding.extraDetails.humidity.setText(humidityString);
+            mDetailBinding.extraDetails.humidity.setContentDescription(humidityA11y);
+
             float pressure = data.getFloat(WeatherEntry.INDEX_COLUMN_PRESSURE);
+            String pressureA11y = getString(R.string.a11y_pressure, String.valueOf(pressure));
             String pressureString = getString(R.string.format_pressure, pressure);
+            mDetailBinding.extraDetails.pressure.setText(pressureString);
+            mDetailBinding.extraDetails.pressure.setContentDescription(pressureA11y);
+
             float windDirection = data.getFloat(WeatherEntry.INDEX_COLUMN_WIND_DIR);
             float windSpeed = data.getFloat(WeatherEntry.INDEX_COLUMN_WIND_SPEED);
             String formattedWindInfo = WeatherUtils.getFormattedWind(this, windSpeed, windDirection);
-
-            mDetailBinding.primaryWeather.date.setText(dateString);
-            mDetailBinding.primaryWeather.weatherDescription.setText(weatherDescription);
-            mDetailBinding.primaryWeather.temp.setText(temperature);
-            mDetailBinding.primaryWeather.weatherIcon.setImageResource(weatherIconId);
-            mDetailBinding.extraDetails.pressure.setText(pressureString);
-            mDetailBinding.extraDetails.humidity.setText(humidityString);
+            String windA11y = getString(R.string.a11y_wind, formattedWindInfo);
             mDetailBinding.extraDetails.wind.setText(formattedWindInfo);
+            mDetailBinding.extraDetails.wind.setContentDescription(windA11y);
 
             mForecastSummary = String.format("%s - %s - %s - %s - %s - %s", dateString, weatherDescription,
                     temperature, humidityString, pressureString, formattedWindInfo);
