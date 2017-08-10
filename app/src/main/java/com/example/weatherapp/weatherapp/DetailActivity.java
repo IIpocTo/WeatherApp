@@ -110,6 +110,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
             String dateString = DateTimeUtils.getReadableDateString(this, data.getLong(WeatherEntry.INDEX_COLUMN_DATE));
             int weatherId = data.getInt(WeatherEntry.INDEX_COLUMN_WEATHER_ID);
+            int weatherIconId = WeatherUtils.getLargeArtResourceIdForWeatherCondition(weatherId);
             String weatherDescription = WeatherUtils.getStringForWeatherCondition(this, weatherId);
             String temperature = WeatherUtils.formatTemperature(this, data.getDouble(WeatherEntry.INDEX_COLUMN_TEMP));
             float humidity = data.getFloat(WeatherEntry.INDEX_COLUMN_HUMIDITY);
@@ -120,12 +121,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             float windSpeed = data.getFloat(WeatherEntry.INDEX_COLUMN_WIND_SPEED);
             String formattedWindInfo = WeatherUtils.getFormattedWind(this, windSpeed, windDirection);
 
-            mDetailBinding.tvDetailDate.setText(dateString);
-            mDetailBinding.tvDetailDescription.setText(weatherDescription);
-            mDetailBinding.tvDetailTemp.setText(temperature);
-            mDetailBinding.tvDetailPressure.setText(pressureString);
-            mDetailBinding.tvDetailHumidity.setText(humidityString);
-            mDetailBinding.tvDetailWind.setText(formattedWindInfo);
+            mDetailBinding.primaryWeather.date.setText(dateString);
+            mDetailBinding.primaryWeather.weatherDescription.setText(weatherDescription);
+            mDetailBinding.primaryWeather.temp.setText(temperature);
+            mDetailBinding.primaryWeather.weatherIcon.setImageResource(weatherIconId);
+            mDetailBinding.extraDetails.pressure.setText(pressureString);
+            mDetailBinding.extraDetails.humidity.setText(humidityString);
+            mDetailBinding.extraDetails.wind.setText(formattedWindInfo);
 
             mForecastSummary = String.format("%s - %s - %s - %s - %s - %s", dateString, weatherDescription,
                     temperature, humidityString, pressureString, formattedWindInfo);

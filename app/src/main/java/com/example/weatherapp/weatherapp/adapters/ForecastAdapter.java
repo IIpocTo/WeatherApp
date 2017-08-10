@@ -125,7 +125,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
         public ForecastAdapterViewHolder(View itemView) {
             super(itemView);
-            iconView = (ImageView) itemView.findViewById(R.id.weather_icon);
+            iconView = (ImageView) itemView.findViewById(R.id.weatherIcon);
             dateView = (TextView) itemView.findViewById(R.id.date);
             descriptionView = (TextView) itemView.findViewById(R.id.weatherDescription);
             tempView = (TextView) itemView.findViewById(R.id.temp);
