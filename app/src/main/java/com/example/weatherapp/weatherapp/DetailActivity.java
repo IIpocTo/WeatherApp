@@ -49,13 +49,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             if (mUri == null) {
                 throw new NullPointerException("Provided URI is null.");
             }
-            LoaderManager detailLoaderManager = getSupportLoaderManager();
-            Loader<Object> detailForecastLoader = detailLoaderManager.getLoader(DETAIL_LOADER_ID);
-            if (detailForecastLoader == null) {
-                detailLoaderManager.initLoader(DETAIL_LOADER_ID, new Bundle(), this);
-            } else {
-                detailLoaderManager.restartLoader(DETAIL_LOADER_ID, new Bundle(), this);
-            }
+            getSupportLoaderManager().initLoader(DETAIL_LOADER_ID, new Bundle(), this);
         }
 
     }
@@ -137,7 +131,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(Loader<Cursor> loader) {}
 
-    }
 }

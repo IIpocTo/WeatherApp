@@ -46,7 +46,7 @@ public class WeatherProvider extends ContentProvider {
                         projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case CODE_WEATHER_WITH_DATE:
-                String date = String.valueOf(Long.parseLong(uri.getLastPathSegment()) / 1000L);
+                String date = uri.getLastPathSegment();
                 String mSelection = WeatherEntry.COLUMN_DATE + " >= ?";
                 String[] mSelectionArgs = {date};
                 cursor = database.query(WeatherEntry.TABLE_NAME,
