@@ -25,71 +25,49 @@
             app:layout_constraintGuide_percent="0.5"/>
 
         <TextView
+            style="@style/DetailLabel"
             android:id="@+id/pressure_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/pressure_label"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/detailAccentLabel"
             app:layout_constraintLeft_toLeftOf="@id/extra_details"
             app:layout_constraintBottom_toBottomOf="@id/extra_details"
             app:layout_constraintTop_toTopOf="@id/extra_details"/>
 
         <TextView
+            style="@style/ExtraWeatherMeasurement"
             android:id="@+id/pressure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             tools:text="973 hpA"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@+id/pressure_label"
             app:layout_constraintLeft_toLeftOf="@+id/vertical_delimiter"/>
 
         <TextView
+            style="@style/DetailLabel"
             android:id="@+id/humidity_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/humidity_label"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/detailAccentLabel"
             app:layout_constraintBottom_toTopOf="@+id/pressure_label"
             app:layout_constraintTop_toTopOf="@id/extra_details"
             app:layout_constraintLeft_toLeftOf="@id/extra_details"/>
 
         <TextView
+            style="@style/ExtraWeatherMeasurement"
             android:id="@+id/humidity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             tools:text="69%"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
             app:layout_constraintLeft_toLeftOf="@+id/vertical_delimiter"
             app:layout_constraintBottom_toBottomOf="@+id/humidity_label"/>
 
         <TextView
+            style="@style/DetailLabel"
             android:id="@+id/wind_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/wind_label"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/detailAccentLabel"
             app:layout_constraintLeft_toLeftOf="@id/extra_details"
             app:layout_constraintBottom_toBottomOf="@id/extra_details"
             app:layout_constraintTop_toBottomOf="@+id/pressure_label"/>
 
         <TextView
+            style="@style/ExtraWeatherMeasurement"
             android:id="@+id/wind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             tools:text="6 km/h SW"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@+id/wind_label"
             app:layout_constraintLeft_toLeftOf="@+id/vertical_delimiter"/>
-
 
     </android.support.constraint.ConstraintLayout>
 

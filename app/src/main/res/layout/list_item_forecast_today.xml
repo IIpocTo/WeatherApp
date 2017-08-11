@@ -6,7 +6,7 @@
                                              android:layout_height="wrap_content"
                                              android:paddingBottom="16dp"
                                              android:paddingTop="16dp"
-                                             android:background="@color/colorPrimary">
+                                             android:background="@drawable/now_touch_selector">
 
     <android.support.constraint.Guideline
         android:id="@+id/vertical_delimiter"
