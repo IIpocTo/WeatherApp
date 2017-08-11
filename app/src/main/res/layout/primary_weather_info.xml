@@ -29,8 +29,8 @@
 
         <ImageView
             android:id="@+id/weatherIcon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/big_icon"
+            android:layout_height="@dimen/big_icon"
             android:adjustViewBounds="true"
             tools:src="@drawable/art_clouds"
             android:contentDescription="@string/a11y_forecast"
@@ -47,6 +47,7 @@
             app:layout_constraintTop_toBottomOf="@+id/weatherIcon"
             android:layout_marginTop="8dp"
             android:textSize="20sp"
+            android:textColor="@color/secondaryText"
             app:layout_constraintRight_toRightOf="@+id/weatherIcon"
             app:layout_constraintLeft_toLeftOf="@+id/weatherIcon"/>
 
@@ -55,7 +56,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="16.5\u00b0C"
-            android:textSize="50sp"
+            android:textSize="48sp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="sans-serif-light"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="@+id/vertical_delimiter"
             app:layout_constraintBottom_toBottomOf="@+id/weatherIcon"

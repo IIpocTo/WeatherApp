@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="wrap_content"
                                              android:paddingBottom="16dp"
                                              android:paddingTop="16dp"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools">
+                                             android:background="@color/colorPrimary">
 
     <android.support.constraint.Guideline
         android:id="@+id/vertical_delimiter"
@@ -18,17 +19,20 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="16dp"
         android:textSize="20sp"
+        android:fontFamily="sans-serif"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@android:color/white"
         tools:text="Today, September 13"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/weatherIcon"/>
 
     <ImageView
         android:id="@+id/weatherIcon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/big_icon"
+        android:layout_height="@dimen/big_icon"
         android:adjustViewBounds="true"
         tools:src="@drawable/art_clouds"
         android:contentDescription="@string/a11y_forecast"
@@ -42,9 +46,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Scattered Clouds"
-        app:layout_constraintTop_toBottomOf="@+id/weatherIcon"
         android:layout_marginTop="8dp"
         android:textSize="20sp"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@+id/weatherIcon"
         app:layout_constraintRight_toRightOf="@+id/weatherIcon"
         app:layout_constraintLeft_toLeftOf="@+id/weatherIcon"/>
 
@@ -53,7 +58,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="16.5\u00b0C"
-        android:textSize="80sp"
+        android:textSize="72sp"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@android:color/white"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/vertical_delimiter"
         app:layout_constraintBottom_toBottomOf="@+id/weatherIcon"
